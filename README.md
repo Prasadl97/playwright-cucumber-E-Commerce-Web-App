@@ -106,14 +106,3 @@ node --import tsx node_modules/@cucumber/cucumber/bin/cucumber-js --tags "@smoke
 - Registration flow saves email/password to the entity file after success; the login step reads from it.
 - `playwright.config.ts` is for optional Playwright-native runs; Cucumber uses the custom World and `playwright` inside step definitions.
 
-## Technical requirements
-
-| Requirement | Implementation |
-|-------------|----------------|
-| **Page Object Model** | `src/pages/`: `BasePage` plus `LoginPage`, `HomePage`, `AccountDashboardPage`, etc. Selectors and actions encapsulated; World exposes page instances. |
-| **Async/await correctness** | All hooks, steps, and page methods are `async` and use `await`; no `.then()` or sync blocking. |
-| **Environment configuration** | `BASE_URL`, `ADMIN_BASE_URL`, `ENTITY_FILE_PATH` (and `DATA_FILE_PATH`) read from `process.env` in `cucumber.js` with fallbacks. |
-| **External test data** | `data/test-data.json` for default registration; `configs/testData.ts` loads it. Entity store for persisted user (`data/entities/registered-user.json`). |
-| **Hooks** | `src/hooks/hooks.ts`: `Before` (init browser/context/page), `After` (destroy). |
-| **No hardcoded waits** | Only Playwright auto-waiting (`waitFor({ state: 'visible' })`, `fill`, `click`); no `waitForTimeout` or `setTimeout`. |
-| **Clean reusable code** | World exposes page getters; shared base URL and test data loader; no duplicated page construction in steps. |
