@@ -1,5 +1,8 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
+import { expect } from '@playwright/test';
+import { ActionHelper } from '../utils/ActionHelper.js';
+import { AssertUtils } from '../utils/AssertUtils.js';
 
 export class AdminLoginPage extends BasePage {
   // ─── Locators ───
@@ -21,15 +24,15 @@ export class AdminLoginPage extends BasePage {
   }
 
   async fillUsername(username: string): Promise<void> {
-    await this.usernameInput.fill(username);
+    await ActionHelper.fill(this.usernameInput, username);
   }
 
   async fillPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
+    await ActionHelper.fill(this.passwordInput, password);
   }
 
   async clickSignIn(): Promise<void> {
-    await this.signInButton.click();
+    await ActionHelper.click(this.signInButton);
   }
 
   async login(username: string, password: string): Promise<void> {
@@ -40,6 +43,7 @@ export class AdminLoginPage extends BasePage {
 
   // ─── Assertions ───
   async expectOnAdminDashboard(): Promise<void> {
-    await this.page.getByRole('heading', { name: 'Dashboard', level: 1 }).waitFor({ state: 'visible' });
+    const heading = this.page.getByRole('heading', { name: 'Dashboard', level: 1 });
+    await AssertUtils.verifyExpect('Admin dashboard', () => expect(heading).toBeVisible(), 'Admin dashboard heading should be visible');
   }
 }

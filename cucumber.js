@@ -4,8 +4,13 @@ const adminBaseURL = process.env.ADMIN_BASE_URL ?? `${baseURL.replace(/\/?$/, ''
 const browserEnv = (process.env.BROWSER ?? 'chromium').toLowerCase();
 const browserName = ['chromium', 'firefox', 'webkit'].includes(browserEnv) ? browserEnv : 'chromium';
 
+// If feature file path(s) are passed on the CLI, use only those (override profile paths).
+const cliFeaturePaths = process.argv.filter((arg) => arg.endsWith('.feature'));
+const defaultPaths = ['src/features/**/*.feature'];
+const paths = cliFeaturePaths.length > 0 ? cliFeaturePaths : defaultPaths;
+
 const headless = {
-  paths: ['src/features/**/*.feature'],
+  paths,
   import: [
     'src/support/world.ts',
     'src/hooks/hooks.ts',
@@ -18,7 +23,7 @@ const headless = {
 };
 
 const headed = {
-  paths: ['src/features/**/*.feature'],
+  paths,
   import: [
     'src/support/world.ts',
     'src/hooks/hooks.ts',
@@ -31,7 +36,7 @@ const headed = {
 };
 
 const ui = {
-  paths: ['src/features/**/*.feature'],
+  paths,
   import: [
     'src/support/world.ts',
     'src/hooks/hooks.ts',

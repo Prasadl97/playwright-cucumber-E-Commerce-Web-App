@@ -1,7 +1,7 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { PlaywrightWorld } from '../support/world.js';
-import { generateUniqueEmail } from '../utils/id-utils.js';
-import { saveRegisteredUser, loadRegisteredUser } from '../utils/entity-store.js';
+import { generateUniqueEmail } from '../utils/IdUtils.js';
+import { saveRegisteredUser, loadRegisteredUser } from '../utils/EntityStore.js';
 import { loadTestData } from '../../configs/testData';
 
 Given('I am on the home page', async function (this: PlaywrightWorld) {

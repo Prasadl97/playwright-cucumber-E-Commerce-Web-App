@@ -1,5 +1,6 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
+import { ActionHelper } from '../utils/ActionHelper.js';
 
 export interface RegistrationData {
   firstName: string;
@@ -40,15 +41,15 @@ export class CreateAccountPage extends BasePage {
   }
 
   async fillRegistrationForm(data: RegistrationData): Promise<void> {
-    await this.firstnameInput.fill(data.firstName);
-    await this.lastnameInput.fill(data.lastName);
-    await this.emailInput.fill(data.email);
-    await this.passwordInput.fill(data.password);
-    await this.passwordConfirmationInput.fill(data.password);
+    await ActionHelper.fill(this.firstnameInput, data.firstName);
+    await ActionHelper.fill(this.lastnameInput, data.lastName);
+    await ActionHelper.fill(this.emailInput, data.email);
+    await ActionHelper.fill(this.passwordInput, data.password);
+    await ActionHelper.fill(this.passwordConfirmationInput, data.password);
   }
 
   async submitCreateAccount(): Promise<void> {
-    await this.createAccountButton.click();
+    await ActionHelper.click(this.createAccountButton);
   }
 
   async register(data: RegistrationData): Promise<void> {

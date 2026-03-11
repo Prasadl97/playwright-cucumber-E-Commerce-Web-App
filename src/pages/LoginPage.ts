@@ -1,5 +1,6 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
+import { ActionHelper } from '../utils/ActionHelper.js';
 
 export class LoginPage extends BasePage {
   // ─── Locators ───
@@ -21,15 +22,15 @@ export class LoginPage extends BasePage {
   }
 
   async fillEmail(email: string): Promise<void> {
-    await this.emailInput.fill(email);
+    await ActionHelper.fill(this.emailInput, email);
   }
 
   async fillPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
+    await ActionHelper.fill(this.passwordInput, password);
   }
 
   async clickSignIn(): Promise<void> {
-    await this.signInButton.click();
+    await ActionHelper.click(this.signInButton);
   }
 
   async login(email: string, password: string): Promise<void> {

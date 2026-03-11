@@ -1,5 +1,8 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
+import { expect } from '@playwright/test';
+import { ActionHelper } from '../utils/ActionHelper.js';
+import { AssertUtils } from '../utils/AssertUtils.js';
 
 export class AccountDashboardPage extends BasePage {
   // ─── Locators ───
@@ -21,21 +24,21 @@ export class AccountDashboardPage extends BasePage {
 
   // ─── Action methods ───
   async expectDashboardVisible(): Promise<void> {
-    await this.headingMyAccount.waitFor({ state: 'visible', timeout: 15000 });
+    await AssertUtils.verifyExpect('Dashboard visible', () => expect(this.headingMyAccount).toBeVisible({ timeout: 15000 }), 'My Account heading should be visible');
   }
 
   async expectRegistrationSuccessMessage(): Promise<void> {
-    await this.registrationSuccessMessage.waitFor({ state: 'visible', timeout: 15000 });
+    await AssertUtils.verifyExpect('Registration success', () => expect(this.registrationSuccessMessage).toBeVisible({ timeout: 15000 }), 'Registration success message should be visible');
   }
 
   async expandAccountDropdown(): Promise<void> {
-    await this.accountDropdownTrigger.click();
+    await ActionHelper.click(this.accountDropdownTrigger);
     await this.signOutLink.waitFor({ state: 'visible', timeout: 10000 });
   }
 
   async clickSignOut(): Promise<void> {
     await this.expandAccountDropdown();
-    await this.signOutLink.click();
+    await ActionHelper.click(this.signOutLink);
   }
 
   async expectOnDashboard(): Promise<void> {

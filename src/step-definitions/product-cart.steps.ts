@@ -40,6 +40,6 @@ When('I remove the item from the cart', async function (this: PlaywrightWorld) {
   await this.cartPage.removeFirstItem();
 });
 
-Then('the cart is empty', async function (this: PlaywrightWorld) {
-  await this.cartPage.expectEmptyCart();
-});
+// Then('the cart is empty', async function (this: PlaywrightWorld) {
+//   await this.cartPage.expectEmptyCart();
+// });

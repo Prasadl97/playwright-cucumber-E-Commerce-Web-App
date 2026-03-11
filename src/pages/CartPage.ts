@@ -1,6 +1,8 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
 import { expect } from '@playwright/test';
+import { ActionHelper } from '../utils/ActionHelper.js';
+import { AssertUtils } from '../utils/AssertUtils.js';
 
 export class CartPage extends BasePage {
   // ─── Locators ───
@@ -30,11 +32,11 @@ export class CartPage extends BasePage {
   }
 
   async setCartItemQty(qty: number): Promise<void> {
-    await this.qtySpinbutton.fill(String(qty));
+    await ActionHelper.fill(this.qtySpinbutton, String(qty));
   }
 
   async clickUpdateShoppingCart(): Promise<void> {
-    await this.updateCartButton.click();
+    await ActionHelper.click(this.updateCartButton);
   }
 
   async updateQuantityTo(qty: number): Promise<void> {
@@ -43,20 +45,19 @@ export class CartPage extends BasePage {
   }
 
   async removeFirstItem(): Promise<void> {
-    await this.removeItemLink.click();
+    await ActionHelper.click(this.removeItemLink);
   }
 
   // ─── Assertions ───
   async expectOnCartPage(): Promise<void> {
-    await this.heading.waitFor({ state: 'visible' });
+    await AssertUtils.verifyExpect('Cart page visible', () => expect(this.heading).toBeVisible(), 'Cart heading should be visible');
   }
 
   async expectEmptyCart(): Promise<void> {
-    await this.emptyMessage.waitFor({ state: 'visible' });
+    await AssertUtils.verifyExpect('Empty cart message', () => expect(this.emptyMessage).toBeVisible(), 'Empty cart message should be visible');
   }
 
   async expectCartItemQty(qty: number): Promise<void> {
-    await this.page.getByRole('spinbutton', { name: 'Qty' }).first().waitFor({ state: 'visible' });
-    await expect(this.qtySpinbutton).toHaveValue(String(qty));
+    await AssertUtils.verifyExpect('Cart item quantity', () => expect(this.qtySpinbutton).toHaveValue(String(qty)), `Cart qty should be ${qty}`);
   }
 }

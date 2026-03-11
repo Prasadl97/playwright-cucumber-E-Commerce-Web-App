@@ -1,6 +1,8 @@
 import { BasePage } from './BasePage.js';
 import type { Locator } from 'playwright';
 import { expect } from '@playwright/test';
+import { ActionHelper } from '../utils/ActionHelper.js';
+import { AssertUtils } from '../utils/AssertUtils.js';
 
 export class ProductPage extends BasePage {
   // ─── Locators ───
@@ -18,17 +20,17 @@ export class ProductPage extends BasePage {
 
   // ─── Action methods ───
   async selectSize(size: string): Promise<void> {
-    await this.sizeListbox.click();
-    await this.page.locator(`[data-option-label="${size}"]`).click();
+    await ActionHelper.click(this.sizeListbox);
+    await ActionHelper.click(this.page.locator(`[data-option-label="${size}"]`));
   }
 
   async selectColor(color: string): Promise<void> {
-    await this.colorListbox.click();
-    await this.page.locator(`[data-option-label="${color}"]`).click();
+    await ActionHelper.click(this.colorListbox);
+    await ActionHelper.click(this.page.locator(`[data-option-label="${color}"]`));
   }
 
   async addToCart(): Promise<void> {
-    await this.addToCartButton.click();
+    await ActionHelper.click(this.addToCartButton);
   }
 
   async addConfigurableToCart(size: string, color: string): Promise<void> {
@@ -40,7 +42,6 @@ export class ProductPage extends BasePage {
   // ─── Assertions ───
   async expectAddedToCartMessage(productName: string): Promise<void> {
     const message = this.page.getByText(`You added ${productName} to your shopping cart.`);
-    await message.waitFor({ state: 'visible' });
-    await expect(message).toBeVisible();
+    await AssertUtils.verifyExpect('Added to cart message', () => expect(message).toBeVisible(), `Message for ${productName} should be visible`);
   }
 }

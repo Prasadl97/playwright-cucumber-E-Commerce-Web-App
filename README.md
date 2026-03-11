@@ -62,8 +62,8 @@ playwright-cucumber/
 │   ├── support/
 │   │   └── world.ts        # Custom World with browser, context, page
 │   └── utils/
-│       ├── id-utils.ts     # Dynamic email generation
-│       └── entity-store.ts # Persisted user JSON
+│       ├── IdUtils.ts      # Dynamic email generation
+│       └── EntityStore.ts  # Persisted user JSON
 ├── configs/
 │   └── testData.ts        # loadTestData from JSON
 ├── data/
